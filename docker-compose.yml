@@ -17,12 +17,19 @@ services:
     container_name: ovos_speech
     hostname: ovos_speech
     restart: unless-stopped
+    network_mode: host
+    devices:
+      - /dev/snd
+    environment:
+      PULSE_SERVER: unix:${XDG_RUNTIME_DIR}/pulse/native
+      PULSE_COOKIE: /home/mycroft/.config/pulse/cookie
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - ovos_config:/home/mycroft/.config/mycroft
       - ovos_audio_data:/home/mycroft/.local/mycroft
-    network_mode: host
+      - ~/.config/pulse/cookie:/home/mycroft/.config/pulse/cookie:ro
+      - ${XDG_RUNTIME_DIR}/pulse:${XDG_RUNTIME_DIR}/pulse:ro
     depends_on:
       - ovos_bus
 
