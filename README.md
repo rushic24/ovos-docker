@@ -4,7 +4,7 @@
 [![Debian version](https://img.shields.io/badge/Debian-Bookworm-yellow)](https://www.debian.org)
 [![Python version](https://img.shields.io/badge/Python-3.11-orange)](https://python.org)
 [![Chat](https://img.shields.io/matrix/openvoiceos-general:matrix.org)](https://matrix.to/#/#OpenVoiceOS-general:matrix.org)
-[![Docker pulls](https://img.shields.io/docker/pulls/smartgic/ovos-core)](https://hub.docker.com/r/smartgic/ovos-core)
+[![Docker pulls](https://img.shields.io/docker/pulls/smartgic/ovos-base)](https://hub.docker.com/r/smartgic/ovos-base)
 
 - [Open Voice OS running on Docker/Podman](#open-voice-os-running-on-dockerpodman)
   - [What is Open Voice OS?](#what-is-open-voice-os)
@@ -27,7 +27,6 @@
     - [Skill running as standalone container](#skill-running-as-standalone-container)
   - [Open Voice OS CLI](#open-voice-os-cli)
   - [Open Voice OS GUI](#open-voice-os-gui)
-  - [Debug](#debug)
   - [FAQ](#faq)
   - [Support](#support)
 
@@ -90,13 +89,7 @@ Docker or Podman is of course required and `docker compose`/`podman compose` is 
 
 ### PulseAudio
 
-PulseAudio is a requirement and has to be up and running on the host to expose a socket and a cookie and to allow as well the containers to use the microphone and speakers.
-
-On modern Linux distribution, Pipewire handles the sound stack on the system, make sure PulseAudio support is enabled within PipeWire and the service is started as a user and not as `root`. The user running the containers has to be part of the `audio` system group.
-
-A quick check to see if PulseAudio is running fine anf if the user has access is to run `pactl info`, the command should return information without any error or connection refused.
-
-Remember to check the permissions of `~/.config/pulse` and `/run/user/1000` directories as well, they should belong to the user running the stack, not `root`.
+PulseAudio is a requirement and has to be up and running on the host to expose a socket and a cookie and to allow as well the containers to use the microphone and speakers. On modern Linux distribution, Pipewire handles the sound stack on the system, make sure PulseAudio support is enabled within PipeWire and the service is started as a user and not as `root`.
 
 ## How to build these images
 
@@ -243,38 +236,6 @@ xhost +local:ovos_gui
 This command is not permanent, when your operating system will reboot, you will have to run the command again.
 
 `xhost` is part of the `x11-xserver-utils` package on Debian based distributions.
-
-## Debug
-
-To access the logs of a container, run the following command:
-
-```bash
-docker logs -f --tail 200 ovos_audio
-```
-
-To execute a command inside a container without going into it, run the following command:
-
-```bash
-docker exec -ti ovos_audio pactl info
-```
-
-To go inside a container and run commands, run the following command:
-
-```bash
-docker exec -ti ovos_audio sh
-```
-
-Make sure your `mycroft.conf` configuration is JSON valid by using the `jq` command.
-
-```bash
-cat ~/ovos/config/mycroft.conf | jq
-```
-
-If not valid JSON valid, `jq` will return something like this:
-
-```text
-parse error: Expected another key-value pair at line 81, column 3
-```
 
 ## FAQ
 

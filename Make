@@ -1,0 +1,8 @@
+run:
+	docker compose -f docker-compose.yml -f docker-compose.raspberrypi.yml -f docker-compose.skills.yml --env-file .env --env-file .env-raspberrypi up -d
+
+shell:
+	docker exec -ti ovos_cli ovos-cli-client
+
+hello:
+	docker exec -ti ovos_cli ovos-speak "hello world"
