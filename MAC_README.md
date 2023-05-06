@@ -1,4 +1,4 @@
-# This repo is exclusive to debug ovos on mac
+# This repository is specifically intended for debugging OVOS on macOS only.
 
 ```
 # delete ~/.config/pulse and /opt/homebrew/etc/pulse before
